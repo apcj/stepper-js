@@ -1,29 +1,75 @@
 p5 = {};
 
-p5.position = 0;
-p5.states = [1, 2, 3, 4, 5];
+p5.position = -1;
+p5.steps = [];
 
 p5.previous = function() {
-  p5.position--;
-  p5.currentState = p5.states[p5.position];
-  p5.render(p5.currentState);
+  if (p5.position >= 0) {
+    p5.steps[p5.position].back();
+    p5.position--;
+  }
 }
 
 p5.next = function() {
-  p5.position++;
-  p5.currentState = p5.states[p5.position];
-  p5.render(p5.currentState);
+  if (p5.position < p5.steps.length - 1) {
+    p5.position++;
+    p5.steps[p5.position].forward();
+  }
 }
 
-p5.render = function(state) {
-  items = [];
-  for (var i = 0; i < state; i++) {
-    items.push({});
+p5.step = function() {
+  var step = {};
+  var _selection;
+  var _key;
+  var _value;
+  var previousValue;
+  
+  step.animate = function(selection) {
+    _selection = selection;
+    return this;
+  };
+  step.style = function(key, value) {
+    _key = key;
+    _value = value;
+    return this;
   }
-  var items = d3.select("body").selectAll("li").data(items);
-  items.enter().append("li").text("Hello");
-  items.exit().remove();
+  step.forward = function() {
+    previousValue = _selection.style(_key);
+    _selection.style(_key, _value);
+  }
+  step.back = function() {
+    _selection.style(_key, previousValue);
+  }
+  
+  p5.steps.push(step);
+  return step;
 }
+
+d3.select(window).on("load", function() {
+  var block = d3.select("div");
+
+  p5.step().animate(block).style("width", "200px");
+  p5.step().animate(block).style("width", "300px");
+  p5.step().animate(block).style("width", "500px");
+});
+
+
+// p5.step().animate(table).style("top", (h - table.node().clientHeight) + "px");
+// p5.step().animate(table).style("top", "0px");
+// p5.step().animate(table).style("top", "30px")
+//   .together().animate(table.select(".headers")).style("top", "30px");
+// 
+// window.animationNext = function() {
+//   table.transition().duration(2000).style("top", (h - table.node().clientHeight) + "px");
+//   window.animationNext = function() {
+//     table.transition().duration(1000).style("top", "0px");
+//     window.animationNext = function() {
+//       table.transition().duration(1000).style("top", "30px");
+//       table.select(".headers").transition().duration(1000).style("opacity", 1);
+//       window.animationNext = null;
+//     };
+//   };
+// }
 
 d3.select(window).on("keydown", function() {
   switch (d3.event.keyCode) {
