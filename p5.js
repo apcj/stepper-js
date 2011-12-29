@@ -18,28 +18,25 @@ p5.next = function() {
 }
 
 p5.step = function() {
-  var step = {};
-  var _selection;
-  var _key;
-  var _value;
-  var previousValue;
+  var step = {
+    forward: function() {},
+    back: function() {}
+  };
   
   step.animate = function(selection) {
-    _selection = selection;
+    step.style = function(key, value) {
+      step.forward = function() {
+        var previousValue = selection.style(key);
+        selection.style(key, value);
+
+        step.back = function() {
+          selection.style(key, previousValue);
+        }
+      }
+      return this;
+    }
     return this;
   };
-  step.style = function(key, value) {
-    _key = key;
-    _value = value;
-    return this;
-  }
-  step.forward = function() {
-    previousValue = _selection.style(_key);
-    _selection.style(_key, _value);
-  }
-  step.back = function() {
-    _selection.style(_key, previousValue);
-  }
   
   p5.steps.push(step);
   return step;
