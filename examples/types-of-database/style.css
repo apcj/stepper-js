@@ -1,0 +1,117 @@
+body {
+  overflow: hidden;
+  margin: 0;
+  font: 14px "Helvetica Neue";
+}
+
+svg {
+  width: 1024px;
+  height: 768px;
+}
+
+#chart, #header {
+  position: absolute;
+  top: 0;
+}
+
+#header {
+  z-index: 1;
+  display: block;
+}
+
+svg {
+  height: 60px;
+}
+
+table#simplecomplex {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 824px;
+  font: 300 36px "Helvetica Neue";
+}
+
+td.heading {
+  text-align: center;
+}
+
+td.simple {
+  text-align: left;
+}
+
+td.complex {
+  text-align: right;
+}
+
+table.feature {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  font-size: 30px;
+}
+
+table.feature td, table.feature th {
+  text-align: center;
+  padding: 0px 20px 0px 20px;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+#header {
+  top: 80px;
+  left: 50px;
+  font: 300 36px "Helvetica Neue";
+}
+
+rect {
+  fill: none;
+  pointer-events: all;
+}
+
+pre {
+  font-size: 18px;
+}
+
+line {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.string, .regexp {
+  color: #f39;
+}
+
+.keyword {
+  color: #00c;
+}
+
+.comment {
+  color: #555;
+}
+
+.number {
+  color: #369;
+}
+
+.class, .special {
+  color: #1181B8;
+}
+
+.fillslide {
+  width: 100%;
+  height: 100%;
+}
+
+g.field > text {
+  font-family: "Helvetica Neue";
+}
+
+ul {
+  margin-right: 50px;
+}
+
+li {
+  margin-bottom: 30px;
+}
