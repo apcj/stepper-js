@@ -1,1 +1,3 @@
-painstakingly programmed progressive presentation platform
+Stepper is very simple javascript library that keeps track of a series of steps in a web page. At each step, some code is executed that changes the appearance of the page.  Steps are triggered by left and right key-presses, so you can use them to construct a hand-crafted presentation.
+
+Currently Stepper is tightly bound to the excellent [D3](http://mbostock.github.com/d3/). It might make sense to break this coupling to allow the use of other visualisation libraries, but that need has not yet arisen.
