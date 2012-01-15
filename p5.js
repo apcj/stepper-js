@@ -30,17 +30,23 @@ p5.step = function() {
       return step;
     }
     
-    step.style = function(key, value) {
-      step.forward = function() {
-        var previousValue = selection.style(key);
-        selection.transition().duration(duration).style(key, value);
+    var supportPropertyChange = function(method) {
+      step[method] = function(key, value) {
+        step.forward = function() {
+          var previousValue = selection[method](key);
+          selection.transition().duration(duration)[method](key, value);
 
-        step.back = function() {
-          selection.style(key, previousValue);
+          step.back = function() {
+            selection[method](key, previousValue);
+          }
         }
+        return this;
       }
-      return this;
     }
+
+    supportPropertyChange("style");
+    supportPropertyChange("attr");
+
     return this;
   };
   
