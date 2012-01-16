@@ -23,30 +23,34 @@ stepper.step = function() {
     back: function() {},
     before: function() {},
     after: function() {},
+    duration: 500
   };
 
-  step.then = function() {
+  var publicStep = {
+    _impl: step
+  };
+  
+  publicStep.then = function() {
     var nextStep = stepper.step();
     step.after = function() {
       stepper.position++;
-      nextStep.forward();
+      nextStep._impl.forward();
     }
-    nextStep.before = function() {
+    nextStep._impl.before = function() {
       step.back();
       stepper.position--;
     };
     return nextStep;
   }
   
-  step.animate = function(selection) {
-    var duration = 500;
-    step.duration = function(overrideDuration) {
-      duration = overrideDuration;
-      return step;
-    }
-    
+  publicStep.duration = function(overrideDuration) {
+    duration = overrideDuration;
+    return publicStep;
+  }
+  
+  publicStep.animate = function(selection) {
     var supportPropertyChange = function(method) {
-      step[method] = function(key, value) {
+      publicStep[method] = function(key, value) {
         step.forward = function() {
           var previousValue = selection[method](key);
           selection.transition()
@@ -65,11 +69,11 @@ stepper.step = function() {
     supportPropertyChange("style");
     supportPropertyChange("attr");
 
-    return this;
+    return publicStep;
   };
   
   stepper.steps.push(step);
-  return step;
+  return publicStep;
 }
 
 d3.select(window).on("keydown", function() {
