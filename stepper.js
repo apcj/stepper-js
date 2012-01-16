@@ -20,8 +20,23 @@ stepper.next = function() {
 stepper.step = function() {
   var step = {
     forward: function() {},
-    back: function() {}
+    back: function() {},
+    before: function() {},
+    after: function() {},
   };
+
+  step.then = function() {
+    var nextStep = stepper.step();
+    step.after = function() {
+      stepper.position++;
+      nextStep.forward();
+    }
+    nextStep.before = function() {
+      step.back();
+      stepper.position--;
+    };
+    return nextStep;
+  }
   
   step.animate = function(selection) {
     var duration = 500;
@@ -34,10 +49,13 @@ stepper.step = function() {
       step[method] = function(key, value) {
         step.forward = function() {
           var previousValue = selection[method](key);
-          selection.transition().duration(duration)[method](key, value);
+          selection.transition()
+            .duration(duration)[method](key, value)
+            .each("end", step.after);
 
           step.back = function() {
             selection[method](key, previousValue);
+            step.before();
           }
         }
         return this;
