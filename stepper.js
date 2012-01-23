@@ -30,6 +30,14 @@ stepper.step = function() {
     _impl: step
   };
   
+  publicStep.forward = function(forward) {
+    step.forward = forward;
+  }
+
+  publicStep.back = function(back) {
+    step.back = back;
+  }
+
   publicStep.then = function() {
     var nextStep = stepper.step();
     step.after = function() {
