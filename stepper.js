@@ -32,10 +32,12 @@ stepper.step = function() {
   
   publicStep.forward = function(forward) {
     step.forward = forward;
+    return publicStep;
   }
 
   publicStep.back = function(back) {
     step.back = back;
+    return publicStep;
   }
 
   publicStep.then = function() {
