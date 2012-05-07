@@ -61,18 +61,24 @@ stepper.step = function() {
   publicStep.animate = function(selection) {
     var supportPropertyChange = function(method) {
       publicStep[method] = function(key, value) {
+        console.log(key + " " + value);
+        var oldForward = step.forward;
+        var oldBack = step.back;
         step.forward = function() {
+          oldForward();
           var previousValue = selection[method](key);
+          console.log(previousValue);
           selection.transition()
             .duration(duration)[method](key, value)
             .each("end", step.after);
 
           step.back = function() {
+            oldBack();
             selection[method](key, previousValue);
             step.before();
           }
         }
-        return this;
+        return publicStep;
       }
     }
 
